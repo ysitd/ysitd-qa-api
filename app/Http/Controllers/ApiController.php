@@ -24,18 +24,24 @@ class ApiController extends Controller
         $question = Question::where('id', '>', $last_question_id)->first();
         
         // Return
-        $return_data = [
-            'user_id' => $user->telegram_id,
-            'question' => $question->question,
-            'option' => [
-                '1' => $question->opt_a,
-                '2' => $question->opt_b,
-                '3' => $question->opt_c,
-                '4' => $question->opt_d
-            ],
-            'class' => $question->type,
-            'author' => $question->author,
-        ];
+        if($question !== null) {
+            $return_data = [
+                'user_id' => $user->telegram_id,
+                'question' => $question->question,
+                'option' => [
+                    '1' => $question->opt_a,
+                    '2' => $question->opt_b,
+                    '3' => $question->opt_c,
+                    '4' => $question->opt_d
+                ],
+                'class' => $question->type,
+                'author' => $question->author,
+            ];
+        } else {
+            $return_data = [
+                'user_id' => $user->telegram_id
+            ];
+        }
         
         return $return_data;
     }
