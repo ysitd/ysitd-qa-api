@@ -50,9 +50,6 @@ class ApiController extends Controller
         
         // Get last question
         $last_question_id = $this->getLastQuestionIdByUser($user);
-        if($last_question_id == 0) {
-            return response('User not in test.', 403);
-        }
         
         // Select question
         $question = Question::where('id', '>', $last_question_id)->first();
