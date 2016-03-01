@@ -3,6 +3,7 @@
 namespace YSITD\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\Request;
 
 class ApiTokenAuth
 {
@@ -13,7 +14,7 @@ class ApiTokenAuth
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
         if($request->token !== env('API_TOKEN')) {
             return response('Unauthorized API Token.', 403);

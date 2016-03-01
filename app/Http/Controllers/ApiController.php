@@ -5,7 +5,6 @@ namespace YSITD\Http\Controllers;
 use Illuminate\Http\Request;
 
 use YSITD\Http\Requests;
-use YSITD\Http\Controllers\Controller;
 
 use YSITD\User;
 use YSITD\Result;

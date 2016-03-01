@@ -3,6 +3,7 @@
 namespace YSITD\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\Request;
 
 class ApiUserIdRequired
 {
@@ -13,7 +14,7 @@ class ApiUserIdRequired
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
         if(!$request->user_id) {
             return response('Empty user_id.', 403);
