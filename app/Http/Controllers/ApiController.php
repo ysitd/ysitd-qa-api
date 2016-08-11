@@ -27,13 +27,7 @@ class ApiController extends Controller
             $return_data = [
                 'user_id' => $user->telegram_id,
                 'question' => $question->question,
-                'option' => [
-                    '1' => $question->opt_a,
-                    '2' => $question->opt_b,
-                    '3' => $question->opt_c,
-                    '4' => $question->opt_d
-                ],
-                'class' => $question->type,
+                'options' => $question->options,
                 'author' => $question->author,
             ];
         } else {
@@ -59,23 +53,14 @@ class ApiController extends Controller
         // Select question
         $question = Question::where('id', '>', $last_question_id)->first();
         
-        // Check answer
-        if($question->answer == $req->answer) {
-            $result = 1;
-        } else {
-            $result = 0;
-        }
-        
         // Create answered record
         $record = Result::firstOrNew(['user_id' => $user->id, 'question_id' => $question->id]);
-        $record->result = $result;
-        $record->answer = $req->answer;
+        $record->result = $req->correct;
         $record->save();
         
         // Return
         $return_data = [
             'user_id' => $user->telegram_id,
-            'result' => $result,
             'answer' => $question->answer,
         ];
         return $return_data;
@@ -98,27 +83,6 @@ class ApiController extends Controller
             'user_id' => $user->telegram_id,
             'correct' => $correct,
             'incorrect' => $incorrect,
-            'ingroup' => $user->ingroup,
-        ];
-        return $return_data;
-    }
-    
-    public function post_user_status(Request $req) {
-        // Find out user
-        try {
-            $user = User::where('telegram_id', '=', $req->user_id)->firstOrFail();
-        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $err) {
-            return response('Invalid User.', 403);
-        }
-        
-        // Receive ingroup data
-        $user->ingroup = $req->ingroup;
-        $user->save();
-        
-        // Return
-        $return_data = [
-            'user_id' => $user->telegram_id,
-            'ingroup' => $user->ingroup,
         ];
         return $return_data;
     }

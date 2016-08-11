@@ -10,7 +10,4 @@ Route::group(['middleware' => ['api_auth', 'req_user']], function() {
     
     // Get user status
     Route::get('/api/user_status', ['uses' => 'ApiController@user_status']);
-    
-    // Update user status
-    Route::post('/api/user_status', ['uses' => 'ApiController@post_user_status']);
 });
